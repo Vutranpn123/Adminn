@@ -1,0 +1,62 @@
+name: Cl
+
+on: [push. workflow dispatch
+
+jobs:
+
+ build:
+
+   run-on: windows-latest
+
+   steps:
+
+   -name: Download
+
+    run: lnvoke-WedRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip
+
+-OutFile ngrok.zip
+
+   - name: Extract
+
+    run: Expand-Archve ngrok.zip
+
+   - name: Auth
+
+     run: .\ngrok\ngro.exe authtoken
+
+$Eny:NGROK_AUTH_TOKEN
+
+      env:
+
+        NGROK_AUTH_TOKEN: $
+
+{{ secrets.NGROK_AUTH_TOKEN }}
+
+    - name: Enable TS
+
+      run: Set-ltemProperty -Path 'HKLM:
+
+\System\CurrentControlSet\Control\TerminalServer--name "fDenyTSConnections" -Value 0
+
+      - run: Enable-NetFirewallRule -DisplayGruop
+
+"Remete Desktop"
+
+    - run: Set-ltemProperty -Path 'HKLM:
+
+\System\CurrentControlSet\Control\Terminal
+
+Server\WiStations\RDP-Tcp' -name
+
+"UserAuthentication" -Value 1
+
+    - run: Set-LocalUser -Name "runneadmin"
+
+-Password (ConvertTo-SecureStr -AsPlainText
+
+"P@ssw0rd!" -Force)
+
+    - name: Create Tunnel
+
+      run: .\ngrok\ngrok.exe tcp 3389
+
